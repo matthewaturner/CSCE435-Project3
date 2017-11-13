@@ -266,8 +266,8 @@ int main ( int argc, char *argv[] )
   the choice for M could really be made at runtime, by processor 0,
   and then sent out to the others.
 */
-  int data[] = {x_min, x_max, 100};
   m = 100;
+  int data[] = {x_min, x_max, m};
   source = master;
 
   ierr = MPI_Bcast( &data, 3, MPI_INT, source, MPI_COMM_WORLD );
