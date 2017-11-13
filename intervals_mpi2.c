@@ -10,7 +10,7 @@ void timestamp ( );
 
 /******************************************************************************/
 
-void ONE_TO_ALL_BC(
+int ONE_TO_ALL_BC(
   void *buffer, 
   int count, 
   MPI_Datatype datatype, 
@@ -22,8 +22,8 @@ void ONE_TO_ALL_BC(
   MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
   MPI_Comm_size(MPI_COMM_WORLD, &size);
   d = (int) (log(size)/log(2) + .5);
+  mask = (int)pow(2, d) - 1;
 
-  mask = size-1;
   for(int i=d-1; i>=0; i--) 
   {
     mask = mask ^ (int)pow(2, i);
@@ -272,7 +272,7 @@ int main ( int argc, char *argv[] )
   m = 100;
   source = master;
 
-  ONE_TO_ALL_BC( &m, 1, MPI_INT, source, MPI_COMM_WORLD );
+  ierr = ONE_TO_ALL_BC( &m, 1, MPI_INT, source, MPI_COMM_WORLD );
 /*
   Now, every process EXCEPT 0 computes its estimate of the 
   integral over its subinterval, and sends the result back
