@@ -272,7 +272,7 @@ int localmin, localmax, localm;
   the choice for M could really be made at runtime, by processor 0,
   and then sent out to the others.
 */
-  int data[] = [localmin, localmax, localm];
+  int data[] = {localmin, localmax, localm};
   source = master;
 
   ierr = ONE_TO_ALL_BC( &data, 3, MPI_INT, source, MPI_COMM_WORLD );
