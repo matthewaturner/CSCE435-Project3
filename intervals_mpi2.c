@@ -267,6 +267,7 @@ int main ( int argc, char *argv[] )
   and then sent out to the others.
 */
   int data[] = {x_min, x_max, 100};
+  m = 100;
   source = master;
 
   ierr = MPI_Bcast( &data, 3, MPI_INT, source, MPI_COMM_WORLD );
