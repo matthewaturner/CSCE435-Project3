@@ -236,7 +236,7 @@ int main ( int argc, char *argv[] )
   m = 100;
   source = master;
 
-  ierr = MPI_Bcast ( &m, 1, MPI_INT, source, MPI_COMM_WORLD );
+  ONE_TO_ALL_BC( &m, 1, MPI_INT, source, MPI_COMM_WORLD );
 /*
   Now, every process EXCEPT 0 computes its estimate of the 
   integral over its subinterval, and sends the result back
