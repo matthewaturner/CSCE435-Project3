@@ -1,0 +1,13 @@
+#BSUB -J hello                  # Set job name to 'hello'
+#BSUB -n 4                      # ask for 40 cores
+#BSUB -R "span[ptile=2]"       # ask for 20 cores per node
+#BSUB -R "rusage[mem=1024]"     # ask for a processor with at least 512MB memory
+#BSUB -M 1024                   # 1024MB per process
+#BSUB -o hello.%J               # stdout and stderr go to hello.[job id]
+#BSUB -L /bin/bash              # shell to use for the job
+#BSUB -W 45                     # 45 minute limit on run time
+
+module purge                    # remove any prior modules
+module load intel/2017A         # install Intel compiler (icc) and MKL
+make
+

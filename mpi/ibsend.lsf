@@ -1,0 +1,16 @@
+
+#BSUB -J ibsend                 # Set job name to 'ibsend'
+#BSUB -n 8                      # ask for 8 cores
+#BSUB -R "span[ptile=2]"        # ask for 2 cores per node
+#BSUB -R "rusage[mem=1024]"     # ask for a processor with at least 512MB memory
+#BSUB -M 1024                   # 1024MB per process
+#BSUB -o ibsend.%J              # stdout and stderr go to ibsend.[job id]
+#BSUB -L /bin/bash              # shell to use for the job
+#BSUB -W 45                     # 45 minute limit on run time
+
+module purge                    # remove any prior modules
+module load intel/2017A         # install Intel compiler (icc) and MKL
+
+mpirun -np 40 ./mpiRingISendIRecv 1000000
+mpirun -np 40 ./mpiRingSendRecv   1000000
+
