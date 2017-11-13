@@ -284,7 +284,7 @@ int main ( int argc, char *argv[] )
   {  
     // calculate xb[0] and xb[1]
     xb[0] = ((m - process_id) * x_min + (process_id - 1) * x_max) / (m - 1 );
-    xb[1] = ( ( m - process_id + 1) * x_min + (process_id ) * x_max) / (m - 1);
+    xb[1] = ( ( m - process_id - 1) * x_min + (process_id) * x_max) / (m - 1);
 
     q_local = 0.0;
 
