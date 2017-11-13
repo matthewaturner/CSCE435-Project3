@@ -258,7 +258,6 @@ int main ( int argc, char *argv[] )
     printf ( "INTERVALS - Master process:\n" );
   }
 
-  printf ("I am %d: xmin: %g xmax: %g m: %g\n", process_id, x_min, x_max, m) ;
 
 /*
   Every process needs to be told the number of points to use.
@@ -275,6 +274,7 @@ int main ( int argc, char *argv[] )
   x_max = data[1];
   m = data[2];
 
+  printf ("I am %d: xmin: %g xmax: %g m: %g\n", process_id, x_min, x_max, m) ;
 /*
   Now, every process EXCEPT 0 computes its estimate of the 
   integral over its subinterval, and sends the result back
