@@ -252,18 +252,13 @@ int main ( int argc, char *argv[] )
 /* NOTE: All of the above work could be done with MPI_Scatter */
 /*---------------------------------------------------------------------------- */
 
-int localmin, localmax, localm;
-
   if ( process_id == master )
   {
     printf ( "\n" );
     printf ( "INTERVALS - Master process:\n" );
-    localmin = x_min;
-    localmax = x_max;
-    localm = m;
   }
 
-  printf ("I am %d: xmin: %g xmax: %g m: %g\n", process_id, localmin, localmax, localmin) ;
+  printf ("I am %d: xmin: %g xmax: %g m: %g\n", process_id, x_min, x_max, m) ;
 
 /*
   Every process needs to be told the number of points to use.
@@ -272,13 +267,13 @@ int localmin, localmax, localm;
   the choice for M could really be made at runtime, by processor 0,
   and then sent out to the others.
 */
-  int data[] = {localmin, localmax, localm};
+  int data[] = {x_min, x_max, 100};
   source = master;
 
   ierr = ONE_TO_ALL_BC( &data, 3, MPI_INT, source, MPI_COMM_WORLD );
-  localmin = data[0];
-  localmax = data[1];
-  localm = data[2];
+  x_min = data[0];
+  x_max = data[1];
+  m = data[2];
 
 /*
   Now, every process EXCEPT 0 computes its estimate of the 
@@ -288,8 +283,8 @@ int localmin, localmax, localm;
   if ( process_id != master )
   {  
     // calculate xb[0] and xb[1]
-    xb[0] = ((localm - process_id) * localmin + (process_id - 1) * localmax) / (localm - 1 );
-    xb[1] = ( ( localm - process_id + 1) * localmin + (process_id ) * localmax) / (localm - 1);
+    xb[0] = ((m - process_id) * x_min + (process_id - 1) * x_max) / (localm - 1 );
+    xb[1] = ( ( m - process_id + 1) * x_min + (process_id ) * x_max) / (localm - 1);
 
     q_local = 0.0;
 
