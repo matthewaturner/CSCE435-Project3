@@ -27,17 +27,17 @@ int ONE_TO_ALL_BC(
   for(int i=d-1; i>=0; i--) 
   {
     mask = mask ^ (int)pow(2, i);
-    if(my_id & mask == 0)  
+    if((my_id & mask) == 0)  
     {
-      if(my_id & pow(2, i) == 0)
+      if((my_id & (int)pow(2, i)) == 0)
       {
         int msg_dest = my_id ^ (int)pow(2, i);
-        MPI_Send(buffer, count, datatype, msg_dest, 0, MPI_COMM_WORLD);
+        MPI_Send(buffer, count, datatype, msg_dest, 0, comm);
       } 
       else 
       {
         int msg_source = my_id ^ (int)pow(2, i);
-        MPI_Recv(buffer, count, datatype, msg_source, 0, MPI_COMM_WORLD, 
+        MPI_Recv(buffer, count, datatype, msg_source, 0, comm, 
           MPI_STATUS_IGNORE);
       }
     }
