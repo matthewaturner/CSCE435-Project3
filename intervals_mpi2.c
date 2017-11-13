@@ -237,13 +237,12 @@ int main ( int argc, char *argv[] )
   */
 
 
-  ierr = ONE_TO_ALL_BC()
-
-  /* each process gets 2 items from xb_all */
+  /*
   ierr = MPI_Scatter (
-    /* send data: */            xb_all, 2, MPI_DOUBLE,
-    /* recv data: */            xb, 2, MPI_DOUBLE,
-    /* who is the master? */    master, MPI_COMM_WORLD) ;
+    xb_all, 2, MPI_DOUBLE,
+    xb, 2, MPI_DOUBLE,
+    master, MPI_COMM_WORLD) ;
+  */
 
 /*
   Wait here until everyone has gotten their assignment.
@@ -253,6 +252,7 @@ int main ( int argc, char *argv[] )
 /* NOTE: All of the above work could be done with MPI_Scatter */
 /*---------------------------------------------------------------------------- */
 
+int localmin, localmax, localm;
 
   if ( process_id == master )
   {
@@ -272,7 +272,7 @@ int main ( int argc, char *argv[] )
   the choice for M could really be made at runtime, by processor 0,
   and then sent out to the others.
 */
-  data = [localmin, localmax, localm]
+  int data[] = [localmin, localmax, localm]
   source = master;
 
   ierr = ONE_TO_ALL_BC( &data, 3, MPI_INT, source, MPI_COMM_WORLD );
