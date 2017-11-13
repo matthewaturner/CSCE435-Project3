@@ -269,7 +269,7 @@ int main ( int argc, char *argv[] )
   int data[] = {x_min, x_max, 100};
   source = master;
 
-  ierr = ONE_TO_ALL_BC( &data, 3, MPI_INT, source, MPI_COMM_WORLD );
+  ierr = MPI_Bcast( &data, 3, MPI_INT, source, MPI_COMM_WORLD );
   x_min = data[0];
   x_max = data[1];
   m = data[2];
