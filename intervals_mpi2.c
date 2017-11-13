@@ -200,6 +200,7 @@ int main ( int argc, char *argv[] )
 /* NOTE: this could be done with MPI_Scatter: */
 /*---------------------------------------------------------------------------- */
 
+/*
   if ( process_id == master )
   {
     xb_all = (double *) malloc ( 2 * process_num * sizeof (double) ) ;
@@ -222,9 +223,7 @@ int main ( int argc, char *argv[] )
       xb_all [2*process + 0] =  xb [0] ;
       xb_all [2*process + 1] =  xb [1] ;
 
-      /*
-      ierr = MPI_Send ( xb, 2, MPI_DOUBLE, target, tag, MPI_COMM_WORLD );
-      */
+      // ierr = MPI_Send ( xb, 2, MPI_DOUBLE, target, tag, MPI_COMM_WORLD );
     }
   }
   else
@@ -233,10 +232,12 @@ int main ( int argc, char *argv[] )
     source = master;
     tag = 1;
 
-    /*
-    ierr = MPI_Recv ( xb, 2, MPI_DOUBLE, source, tag, MPI_COMM_WORLD, &status );
-     */
+    // ierr = MPI_Recv ( xb, 2, MPI_DOUBLE, source, tag, MPI_COMM_WORLD, &status );
   }
+  */
+
+
+  ierr = ONE_TO_ALL_BC()
 
   /* each process gets 2 items from xb_all */
   ierr = MPI_Scatter (
@@ -257,10 +258,12 @@ int main ( int argc, char *argv[] )
   {
     printf ( "\n" );
     printf ( "INTERVALS - Master process:\n" );
-    printf ( "  Subintervals have been assigned.\n" );
+    localmin = xmin;
+    localmax = xmax;
+    localm = m;
   }
 
-  printf ("I am %d: xb: %g %g\n", process_id, xb [0], xb [1]) ;
+  printf ("I am %d: xmin: %g xmax: %g m: %g\n", process_id, localmin, localmax, localmin) ;
 
 /*
   Every process needs to be told the number of points to use.
@@ -269,10 +272,14 @@ int main ( int argc, char *argv[] )
   the choice for M could really be made at runtime, by processor 0,
   and then sent out to the others.
 */
-  m = 100;
+  data = [localmin, localmax, localm]
   source = master;
 
-  ierr = ONE_TO_ALL_BC( &m, 1, MPI_INT, source, MPI_COMM_WORLD );
+  ierr = ONE_TO_ALL_BC( &data, 3, MPI_INT, source, MPI_COMM_WORLD );
+  localmin = data[0];
+  localmax = data[1];
+  localm = data[2];
+
 /*
   Now, every process EXCEPT 0 computes its estimate of the 
   integral over its subinterval, and sends the result back
@@ -280,6 +287,10 @@ int main ( int argc, char *argv[] )
 */
   if ( process_id != master )
   {  
+    // calculate xb[0] and xb[1]
+    xb[0] = ((localm - process_id) * localmin + (process_id - 1) * localmax) / (localm - 1 )
+    xb[1] = ( ( localm - process_id + 1) * localmin + (process_id ) * localmax) / (localm - 1)
+
     q_local = 0.0;
 
     for ( i = 1; i <= m; i++ )
