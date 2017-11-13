@@ -266,14 +266,17 @@ int main ( int argc, char *argv[] )
   the choice for M could really be made at runtime, by processor 0,
   and then sent out to the others.
 */
+/*
   m = 100;
   int data[] = {x_min, x_max, m};
   source = master;
 
-  ierr = MPI_Bcast( &data, 3, MPI_INT, source, MPI_COMM_WORLD );
+  //ierr = MPI_Bcast( &data, 3, MPI_INT, source, MPI_COMM_WORLD );
   x_min = data[0];
   x_max = data[1];
   m = data[2];
+  */
+  m = 100;
 
   printf ("I am %d: xmin: %g xmax: %g m: %g\n", process_id, x_min, x_max, m) ;
 /*
