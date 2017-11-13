@@ -20,58 +20,58 @@ SRC = mpi_hello.c
 hi:
 	$(MPICC) $(CFLAGS) mpi_hello.c -o mpi_hello $(LIB)
 	# run on default # of processors:
-	mpirun ./mpi_hello
+	# mpirun ./mpi_hello
 	# run on 8 processors:
-	mpirun -np 8 ./mpi_hello
+	# mpirun -np 8 ./mpi_hello
 
 sr:
 	$(MPICC) $(CFLAGS) mpi_sendrecv.c -o mpi_sendrecv $(LIB)
 	# to run on default # of processors:
-	mpirun -np 8 ./mpi_sendrecv
+	# mpirun -np 8 ./mpi_sendrecv
 
 
 sr2:
 	$(MPICC) $(CFLAGS) mpi_sendrecv2.c -o mpi_sendrecv2 $(LIB)
 	# to run on default # of processors:
-	mpirun -np 8 ./mpi_sendrecv2
+	# mpirun -np 8 ./mpi_sendrecv2
 
 
 ring:
 	$(MPICC) $(CFLAGS) ring_mpi.c -o ring_mpi $(LIB)
 	# to run on default # of processors:
-	mpirun -np 8 ./ring_mpi
+	# mpirun -np 8 ./ring_mpi
 
 
 comm:
 	$(MPICC) $(CFLAGS) communicator_mpi.c -o communicator_mpi $(LIB)
 	# to run on default # of processors:
-	mpirun -np 8 ./communicator_mpi
+	# mpirun -np 8 ./communicator_mpi
 
 isend:
 	$(MPICC) $(CFLAGS) mpiRingISendIRecv.c -o mpiRingISendIRecv $(LIB)
 	# to run on default # of processors:
-	mpirun -np 8 ./mpiRingISendIRecv 40
+	# mpirun -np 8 ./mpiRingISendIRecv 40
 
 bsend:
 	$(MPICC) $(CFLAGS) mpiRingSendRecv.c -o mpiRingSendRecv $(LIB)
 	# to run on default # of processors:
-	mpirun -np 8 ./mpiRingSendRecv 40
+	# mpirun -np 8 ./mpiRingSendRecv 40
 
 
 intervals:
 	$(MPICC) $(CFLAGS) intervals_mpi.c -o intervals_mpi $(LIB)
 	# to run on default # of processors:
-	mpirun -np 8 ./intervals_mpi
+	# mpirun -np 8 ./intervals_mpi
 
 intervals2:
 	$(MPICC) $(CFLAGS) intervals_mpi2.c -o intervals_mpi2 $(LIB)
 	# to run on default # of processors:
-	mpirun -np 8 ./intervals_mpi2
+	# mpirun -np 8 ./intervals_mpi2
 
 allred:
 	$(MPICC) $(CFLAGS) allreduce.c -o allreduce $(LIB)
 	# to run on default # of processors:
-	mpirun -np 8 ./allreduce
+	# mpirun -np 8 ./allreduce
 
 clean:
 	$(RM) -f communicator_mpi intervals_mpi mpi_hello mpiRingISendIRecv \
