@@ -258,8 +258,8 @@ int localmin, localmax, localm;
   {
     printf ( "\n" );
     printf ( "INTERVALS - Master process:\n" );
-    localmin = xmin;
-    localmax = xmax;
+    localmin = x_min;
+    localmax = x_max;
     localm = m;
   }
 
@@ -272,7 +272,7 @@ int localmin, localmax, localm;
   the choice for M could really be made at runtime, by processor 0,
   and then sent out to the others.
 */
-  int data[] = [localmin, localmax, localm]
+  int data[] = [localmin, localmax, localm];
   source = master;
 
   ierr = ONE_TO_ALL_BC( &data, 3, MPI_INT, source, MPI_COMM_WORLD );
@@ -288,8 +288,8 @@ int localmin, localmax, localm;
   if ( process_id != master )
   {  
     // calculate xb[0] and xb[1]
-    xb[0] = ((localm - process_id) * localmin + (process_id - 1) * localmax) / (localm - 1 )
-    xb[1] = ( ( localm - process_id + 1) * localmin + (process_id ) * localmax) / (localm - 1)
+    xb[0] = ((localm - process_id) * localmin + (process_id - 1) * localmax) / (localm - 1 );
+    xb[1] = ( ( localm - process_id + 1) * localmin + (process_id ) * localmax) / (localm - 1);
 
     q_local = 0.0;
 
