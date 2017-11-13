@@ -10,6 +10,42 @@ void timestamp ( );
 
 /******************************************************************************/
 
+void ONE_TO_ALL_BC(
+  void *buffer, 
+  int count, 
+  MPI_Datatype datatype, 
+  int root, 
+  MPI_Comm comm) 
+{
+  int my_id, size, d, mask;
+
+  MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
+  MPI_Comm_size(MPI_COMM_WORLD, &size);
+  d = (int) (log(size)/log(2) + .5);
+
+  mask = size-1;
+  for(int i=d-1; i>=0; i--) 
+  {
+    mask = mask ^ (int)pow(2, i);
+    if(my_id & mask == 0)  
+    {
+      if(my_id & pow(2, i) == 0)
+      {
+        int msg_dest = my_id ^ (int)pow(2, i);
+        MPI_Send(buffer, count, datatype, msg_dest, 0, MPI_COMM_WORLD);
+      } 
+      else 
+      {
+        int msg_source = my_id ^ (int)pow(2, i);
+        MPI_Recv(buffer, count, datatype, msg_source, 0, MPI_COMM_WORLD, 
+          MPI_STATUS_IGNORE);
+      }
+    }
+  }
+}
+
+/******************************************************************************/
+
 int main ( int argc, char *argv[] )
 
 /******************************************************************************/
@@ -322,39 +358,6 @@ int main ( int argc, char *argv[] )
 /******************************************************************************/
   // ierr = MPI_Bcast ( &m, 1, MPI_INT, source, MPI_COMM_WORLD );
 
-void ONE_TO_ALL_BC(
-  void *buffer, 
-  int count, 
-  MPI_Datatype datatype, 
-  int root, 
-  MPI_Comm comm) 
-{
-  int my_id, size, d, mask;
-
-  MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
-  MPI_Comm_size(MPI_COMM_WORLD, &size);
-  d = (int) (log(size)/log(2) + .5);
-
-  mask = size-1;
-  for(int i=d-1; i>=0; i--) 
-  {
-    mask = mask ^ (int)pow(2, i);
-    if(my_id & mask == 0)  
-    {
-      if(my_id & pow(2, i) == 0)
-      {
-        int msg_dest = my_id ^ (int)pow(2, i);
-        MPI_Send(buffer, count, datatype, msg_dest, 0, MPI_COMM_WORLD);
-      } 
-      else 
-      {
-        int msg_source = my_id ^ (int)pow(2, i);
-        MPI_Recv(buffer, count, datatype, msg_source, 0, MPI_COMM_WORLD, 
-          MPI_STATUS_IGNORE);
-      }
-    }
-  }
-}
 
 /******************************************************************************/
 
