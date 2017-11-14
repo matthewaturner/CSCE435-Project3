@@ -68,6 +68,9 @@ intervals2:
 	# to run on default # of processors:
 	# mpirun -np 8 ./intervals_mpi2
 
+testbcast:
+	$(MPICC) $(CFLAGS) testbcast.c -o testbcast $(LIB)
+
 allred:
 	$(MPICC) $(CFLAGS) allreduce.c -o allreduce $(LIB)
 	# to run on default # of processors:

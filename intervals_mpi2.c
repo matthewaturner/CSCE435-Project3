@@ -270,11 +270,12 @@ int main ( int argc, char *argv[] )
   source = master;
 
   ierr = ONE_TO_ALL_BC( &data, 3, MPI_INT, source, MPI_COMM_WORLD );
+  MPI_Barrier(MPI_COMM_WORLD);
+
   x_min = data[0];
   x_max = data[1];
   m = data[2];
 
-  printf ("I am %d: xmin: %g xmax: %g m: %g\n", process_id, x_min, x_max, m) ;
 /*
   Now, every process EXCEPT 0 computes its estimate of the 
   integral over its subinterval, and sends the result back
