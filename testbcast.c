@@ -11,32 +11,32 @@ int ONE_TO_ALL_BC(
     int root, 
     MPI_Comm comm) 
 {
-  int my_id, size, d, mask;
-
+  int my_id, size;
+  
   MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
   MPI_Comm_size(MPI_COMM_WORLD, &size);
-  d = (int) (log(size)/log(2) + .5);
-  mask = (int)pow(2, d) - 1;
+  int d = (int) (log(size)/log(2)+.5);
+  int mask = (int)pow(2,d) - 1;
 
-  for(int i=d-1; i>=0; i--) 
+  for(int i = d-1; i >= 0; i--)
   {
-    mask = mask ^ (int)pow(2, i);
-    if((my_id & mask) == 0)  
+    mask = mask^(int)pow(2,i);
+    if((my_id & mask) == 0)
     {
-      if((my_id & (int)pow(2, i)) == 0)
+      if((my_id & (int)pow(2,i)) == 0)
       {
-        int msg_dest = my_id ^ (int)pow(2, i);
-        MPI_Send(buffer, count, datatype, msg_dest, 0, comm);
-      } 
-      else 
+        int msg_destination = my_id ^ (int)pow(2,i);
+        MPI_Send(buffer, count, datatype, msg_destination, 0, comm);
+      }
+      else
       {
-        int msg_source = my_id ^ (int)pow(2, i);
-        MPI_Recv(buffer, count, datatype, msg_source, 0, comm, 
-        MPI_STATUS_IGNORE);
+        int msg_source = my_id ^ (int)pow(2,i);
+        MPI_Recv(buffer, count, datatype, msg_source, 0, comm, MPI_STATUS_IGNORE);
       }
     }
   }
 }
+    
 
 int main ( int argc, char *argv[] )
 {
