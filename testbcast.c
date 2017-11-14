@@ -38,8 +38,10 @@ int ONE_TO_ALL_BC(
   }
 }
 
-void main()
+int main ( int argc, char *argv[] )
 {
+    ierr = MPI_Init ( &argc, &argv );
+
     double t1, t2;
     int *buffer = malloc(1000000*sizeof(int));
 
