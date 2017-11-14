@@ -280,13 +280,13 @@ int main ( int argc, char *argv[] )
   if ( process_id != master )
   {  
     // calculate xb[0] and xb[1]
-    xb[0] = ( ( double ) ( m - process_id     ) * x_min   
+    xb[0] = ( ( double ) ( m-1 - process_id     ) * x_min   
     + ( double ) (               process_id - 1 ) * x_max ) 
-    / ( double ) ( m           - 1 );
+    / ( double ) ( m-1           - 1 );
 
-xb[1] = ( ( double ) ( m - process_id - 1 ) * x_min   
+xb[1] = ( ( double ) ( m-1 - process_id - 1 ) * x_min   
     + ( double ) (               process_id     ) * x_max ) 
-    / ( double ) ( m           - 1 );
+    / ( double ) ( m-1           - 1 );
 
     q_local = 0.0;
 
